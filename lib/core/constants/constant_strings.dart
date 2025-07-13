@@ -44,4 +44,18 @@ class AppStrings {
   static const String cannotOpenUrl = 'Cannot open broker website';
   static const String invalidUrl = 'Invalid website URL';
   static const String noUrlAvailable = 'No website URL available';
+
+  // Search related strings
+  static const String searchBrokers = 'Search brokers...';
+  static const String noResultsFound = 'No Results Found';
+  static const String noResultsFor = 'No results found for ';
+  static const String tryDifferentKeywords =
+      'Try different search terms or check your spelling';
+  static const String clearSearch = 'Clear Search';
+
+  // Empty state strings
+  static const String noBrokersAvailable = 'No Brokers Available';
+  static const String noBrokersDescription =
+      'We couldn\'t find any brokers at the moment. Please try refreshing or check back later.';
+  static const String refresh = 'Refresh';
 }

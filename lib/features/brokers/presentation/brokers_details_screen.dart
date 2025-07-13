@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:top_brokers/core/constants/app_dimensions.dart';
 import 'package:top_brokers/core/constants/app_constants.dart';
+import 'package:top_brokers/core/constants/app_dimensions.dart';
 import 'package:top_brokers/data/models/broker.dart';
 import 'package:top_brokers/features/brokers/presentation/widgets/broker_header_widget.dart';
 import 'package:top_brokers/features/brokers/presentation/widgets/broker_section_widget.dart';
@@ -25,28 +25,33 @@ class BrokerDetailsScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(AppDimensions.defaultPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BrokerHeaderWidget(broker: broker),
-              SizedBox(height: AppDimensions.largePadding),
-              BrokerSectionWidget.generalInformation(broker: broker),
-              SizedBox(height: AppDimensions.largePadding),
-              BrokerSectionWidget.accountOptions(broker: broker),
-              if (broker.gi.isNotEmpty) ...[
+      body: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewPadding.bottom,
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(AppDimensions.defaultPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BrokerHeaderWidget(broker: broker),
                 SizedBox(height: AppDimensions.largePadding),
-                BrokerSectionWidget.description(broker: broker),
+                BrokerSectionWidget.generalInformation(broker: broker),
+                SizedBox(height: AppDimensions.largePadding),
+                BrokerSectionWidget.accountOptions(broker: broker),
+                if (broker.gi.isNotEmpty) ...[
+                  SizedBox(height: AppDimensions.largePadding),
+                  BrokerSectionWidget.description(broker: broker),
+                ],
+                SizedBox(height: AppDimensions.largePadding),
+                VisitBrokerButtonWidget(
+                  broker: broker,
+                  onUrlLaunchError: _showErrorSnackBar,
+                ),
+                SizedBox(height: AppDimensions.largePadding),
               ],
-              SizedBox(height: AppDimensions.largePadding),
-              VisitBrokerButtonWidget(
-                broker: broker,
-                onUrlLaunchError: _showErrorSnackBar,
-              ),
-              SizedBox(height: AppDimensions.largePadding),
-            ],
+            ),
           ),
         ),
       ),
