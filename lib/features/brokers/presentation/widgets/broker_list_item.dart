@@ -14,106 +14,156 @@ class BrokerListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       margin: EdgeInsets.symmetric(
         horizontal: AppDimensions.listItemMarginHorizontal,
         vertical: AppDimensions.listItemMarginVertical,
       ),
-      elevation: AppDimensions.cardElevation,
-      shape: RoundedRectangleBorder(
+      decoration: BoxDecoration(
+        color: AppConstants.cardColor,
         borderRadius: BorderRadius.circular(AppDimensions.defaultRadius),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppDimensions.defaultRadius),
-        onTap: () => context.push(AppRoutes.brokerDetails, extra: broker),
-        child: Padding(
-          padding: EdgeInsets.all(AppDimensions.defaultPadding),
-          child: Row(
-            children: [
-              Container(
-                width: AppDimensions.brokerImageWidth,
-                height: AppDimensions.brokerImageHeight,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    AppDimensions.smallRadius,
-                  ),
-                  color: AppConstants.backgroundColor,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    AppDimensions.smallRadius,
-                  ),
-                  child: Image.network(
-                    '${ApiEndpoints.brokersImageBaseUrl}${broker.brokerImage}',
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(
-                        Icons.business,
-                        color: AppConstants.textSecondaryColor,
-                        size: AppDimensions.defaultIconSize,
-                      );
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(width: AppDimensions.defaultPadding),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      broker.bn,
-                      style: TextStyle(
-                        fontSize: AppDimensions.titleFontSize,
-                        fontWeight: FontWeight.w600,
-                        color: AppConstants.textPrimaryColor,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(height: AppDimensions.smallPadding / 2),
-                    Text(
-                      broker.bt,
-                      style: TextStyle(
-                        fontSize: AppDimensions.bodyFontSize,
-                        color: AppConstants.textSecondaryColor,
-                      ),
-                    ),
-                    SizedBox(height: AppDimensions.smallPadding / 4),
-                    Text(
-                      '${AppStrings.regulationBy} ${broker.rt}',
-                      style: TextStyle(
-                        fontSize: AppDimensions.smallFontSize,
-                        color: AppConstants.textSecondaryColor,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppDimensions.smallPadding * 1.5,
-                  vertical: AppDimensions.smallPadding * 0.75,
-                ),
-                decoration: BoxDecoration(
-                  color: AppConstants.primaryColor,
-                  borderRadius: BorderRadius.circular(
-                    AppDimensions.smallRadius,
-                  ),
-                ),
-                child: Text(
-                  AppStrings.openButton,
-                  style: TextStyle(
-                    color: AppConstants.onPrimaryColor,
-                    fontSize: AppDimensions.bodyFontSize,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
+        boxShadow: [
+          BoxShadow(
+            color: AppConstants.shadowColor,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
+        ],
+        border: Border.all(color: AppConstants.borderColor, width: 1),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppDimensions.defaultRadius),
+          onTap: () => context.push(AppRoutes.brokerDetails, extra: broker),
+          child: Padding(
+            padding: EdgeInsets.all(AppDimensions.defaultPadding),
+            child: Row(
+              children: [
+                _buildBrokerImage(),
+                SizedBox(width: AppDimensions.defaultPadding),
+                Expanded(child: _buildBrokerInfo()),
+                _buildActionButton(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBrokerImage() {
+    return Container(
+      width: AppDimensions.brokerImageWidth,
+      height: AppDimensions.brokerImageHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppDimensions.smallRadius),
+        color: AppConstants.gray50,
+        border: Border.all(color: AppConstants.borderColor, width: 1),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppDimensions.smallRadius),
+        child: Image.network(
+          '${ApiEndpoints.brokersImageBaseUrl}${broker.brokerImage}',
+          fit: BoxFit.contain,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              decoration: const BoxDecoration(color: AppConstants.gray100),
+              child: Icon(
+                Icons.business,
+                color: AppConstants.gray500,
+                size: AppDimensions.defaultIconSize,
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBrokerInfo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          broker.bn,
+          style: TextStyle(
+            fontSize: AppDimensions.titleFontSize,
+            fontWeight: AppConstants.fontWeightSemiBold,
+            color: AppConstants.textPrimaryColor,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(height: AppDimensions.smallPadding / 2),
+        if (broker.c != null && broker.c!.isNotEmpty) ...[
+          Text(
+            broker.c!,
+            style: TextStyle(
+              fontSize: AppDimensions.bodyFontSize,
+              fontWeight: AppConstants.fontWeightMedium,
+              color: AppConstants.textSecondaryColor,
+            ),
+          ),
+          SizedBox(height: AppDimensions.smallPadding / 2),
+        ],
+        Row(
+          children: [
+            Icon(
+              Icons.verified_user,
+              size: AppDimensions.smallIconSize,
+              color: AppConstants.successColor,
+            ),
+            SizedBox(width: AppDimensions.smallPadding / 2),
+            Expanded(
+              child: Text(
+                '${AppStrings.regulationBy} ${broker.rt}',
+                style: TextStyle(
+                  fontSize: AppDimensions.smallFontSize,
+                  color: AppConstants.textSecondaryColor,
+                  fontWeight: AppConstants.fontWeightRegular,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionButton() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppDimensions.defaultPadding,
+        vertical: AppDimensions.smallPadding,
+      ),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [
+            AppConstants.secondaryColor,
+            AppConstants.secondaryDarkColor,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(AppDimensions.defaultRadius),
+        boxShadow: [
+          BoxShadow(
+            color: AppConstants.secondaryColor.withValues(alpha: 0.3),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Text(
+        AppStrings.openButton,
+        style: TextStyle(
+          color: AppConstants.textOnSecondaryColor,
+          fontSize: AppDimensions.bodyFontSize,
+          fontWeight: AppConstants.fontWeightSemiBold,
+          letterSpacing: 0.5,
         ),
       ),
     );

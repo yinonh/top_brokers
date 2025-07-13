@@ -18,6 +18,9 @@ class AppStrings {
   static const String swapFreeAccounts = 'Swap free accounts';
   static const String segregatedAccounts = 'Segregated accounts';
   static const String interestOnMargin = 'Interest on margin';
+  static const String maxLeverage = 'Max Leverage';
+  static const String minLotSize = 'Min Lot Size';
+  static const String maxLotSize = 'Max Lot Size';
   static const String errorLoadingBrokers = 'Error loading brokers';
   static const String noDataAvailable = 'No data available';
   static const String tryAgain = 'Try Again';
@@ -36,4 +39,9 @@ class AppStrings {
   static const String yes = 'Yes';
   static const String no = 'No';
   static const String regulationBy = 'Regulation by';
+  static const String verified = 'Verified';
+  static const String visitBrokerWebsite = 'Visit Broker Website';
+  static const String cannotOpenUrl = 'Cannot open broker website';
+  static const String invalidUrl = 'Invalid website URL';
+  static const String noUrlAvailable = 'No website URL available';
 }

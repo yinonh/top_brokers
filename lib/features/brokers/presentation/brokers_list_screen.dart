@@ -81,6 +81,6 @@ class _BrokersListScreenState extends ConsumerState<BrokersListScreen> {
       );
     }
 
-    return const Center(child: Text(AppStrings.loading));
+    return const CircularProgressIndicator();
   }
 }
