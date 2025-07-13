@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_brokers/core/constants/app_constants.dart';
+import 'package:top_brokers/core/constants/app_dimensions.dart';
+import 'package:top_brokers/core/constants/constant_strings.dart';
 import 'package:top_brokers/core/services/connectivity_service.dart';
 
 class OfflineWidget extends ConsumerWidget {
@@ -10,12 +12,12 @@ class OfflineWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(AppConstants.largePadding),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.all(AppDimensions.largePadding),
+      decoration: BoxDecoration(
         color: AppConstants.errorColor,
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(AppConstants.defaultRadius),
-          bottomRight: Radius.circular(AppConstants.defaultRadius),
+          bottomLeft: Radius.circular(AppDimensions.defaultRadius),
+          bottomRight: Radius.circular(AppDimensions.defaultRadius),
         ),
       ),
       child: SafeArea(
@@ -25,18 +27,18 @@ class OfflineWidget extends ConsumerWidget {
           children: [
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.wifi_off,
                   color: AppConstants.onErrorColor,
-                  size: 24,
+                  size: AppDimensions.defaultIconSize,
                 ),
-                const SizedBox(width: AppConstants.smallPadding),
-                const Expanded(
+                SizedBox(width: AppDimensions.smallPadding),
+                Expanded(
                   child: Text(
-                    'No Internet Connection',
+                    AppStrings.noInternetConnection,
                     style: TextStyle(
                       color: AppConstants.onErrorColor,
-                      fontSize: 16,
+                      fontSize: AppDimensions.titleFontSize,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -47,20 +49,24 @@ class OfflineWidget extends ConsumerWidget {
                         .read(connectivityNotifierProvider.notifier)
                         .checkConnectivity();
                   },
-                  child: const Text(
-                    'Retry',
+                  child: Text(
+                    AppStrings.retry,
                     style: TextStyle(
                       color: AppConstants.onErrorColor,
+                      fontSize: AppDimensions.defaultFontSize,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: AppConstants.smallPadding),
-            const Text(
-              'Please check your connection and try again',
-              style: TextStyle(color: AppConstants.onErrorColor, fontSize: 14),
+            SizedBox(height: AppDimensions.smallPadding),
+            Text(
+              AppStrings.pleaseCheckConnectionAndTryAgain,
+              style: TextStyle(
+                color: AppConstants.onErrorColor,
+                fontSize: AppDimensions.defaultFontSize,
+              ),
             ),
           ],
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:top_brokers/core/constants/app_dimensions.dart';
 import 'package:top_brokers/core/constants/constant_strings.dart';
 import 'package:top_brokers/data/models/broker.dart';
+import 'package:top_brokers/features/brokers/presentation/widgets/info_row.dart';
 
 class BrokerDetailsScreen extends StatelessWidget {
   final Broker broker;
@@ -12,71 +14,71 @@ class BrokerDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(broker.bn)),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppDimensions.defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              ConstantStrings.generalInformation,
-              style: Theme.of(context).textTheme.headlineSmall,
+              AppStrings.generalInformation,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontSize: AppDimensions.headlineFontSize,
+              ),
             ),
-            const SizedBox(height: 16),
-            _buildInfoRow('Broker Type', broker.bt),
-            _buildInfoRow('Country', broker.c ?? 'N/A'),
-            _buildInfoRow('Operating since year', broker.os),
-            _buildInfoRow('Number of employees', broker.noe.toString()),
-            _buildInfoRow('Regulation', broker.rt),
-            _buildInfoRow('Address', broker.ad),
-            _buildInfoRow('Broker Status', broker.bs),
-            const SizedBox(height: 24),
+            SizedBox(height: AppDimensions.defaultPadding),
+            InfoRow(label: AppStrings.brokerType, value: broker.bt),
+            InfoRow(
+              label: AppStrings.country,
+              value: broker.c ?? AppStrings.na,
+            ),
+            InfoRow(label: AppStrings.operatingSinceYear, value: broker.os),
+            InfoRow(
+              label: AppStrings.numberOfEmployees,
+              value: broker.noe.toString(),
+            ),
+            InfoRow(label: AppStrings.regulation, value: broker.rt),
+            InfoRow(label: AppStrings.address, value: broker.ad),
+            InfoRow(label: AppStrings.brokerStatus, value: broker.bs),
+            SizedBox(height: AppDimensions.largePadding),
             Text(
-              ConstantStrings.accountOptions,
-              style: Theme.of(context).textTheme.headlineSmall,
+              AppStrings.accountOptions,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontSize: AppDimensions.headlineFontSize,
+              ),
             ),
-            const SizedBox(height: 16),
-            _buildInfoRow('Account currency', broker.ac),
-            _buildInfoRow('Funding/Withdrawal methods', broker.fwm),
-            _buildInfoRow('Swap free accounts', broker.sfa ? 'Yes' : 'No'),
-            _buildInfoRow('Segregated accounts', broker.sega ? 'Yes' : 'No'),
-            _buildInfoRow('Interest on margin', broker.iom ? 'Yes' : 'No'),
-            const SizedBox(height: 24),
+            SizedBox(height: AppDimensions.defaultPadding),
+            InfoRow(label: AppStrings.accountCurrency, value: broker.ac),
+            InfoRow(
+              label: AppStrings.fundingWithdrawalMethods,
+              value: broker.fwm,
+            ),
+            InfoRow(
+              label: AppStrings.swapFreeAccounts,
+              value: broker.sfa ? AppStrings.yes : AppStrings.no,
+            ),
+            InfoRow(
+              label: AppStrings.segregatedAccounts,
+              value: broker.sega ? AppStrings.yes : AppStrings.no,
+            ),
+            InfoRow(
+              label: AppStrings.interestOnMargin,
+              value: broker.iom ? AppStrings.yes : AppStrings.no,
+            ),
+            SizedBox(height: AppDimensions.largePadding),
             if (broker.gi.isNotEmpty) ...[
               Text(
-                'Description',
-                style: Theme.of(context).textTheme.headlineSmall,
+                AppStrings.description,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontSize: AppDimensions.headlineFontSize,
+                ),
               ),
-              const SizedBox(height: 8),
-              Text(broker.gi),
+              SizedBox(height: AppDimensions.smallPadding),
+              Text(
+                broker.gi,
+                style: TextStyle(fontSize: AppDimensions.defaultFontSize),
+              ),
             ],
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 150,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontWeight: FontWeight.w400),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:top_brokers/core/constants/app_constants.dart';
+import 'package:top_brokers/core/constants/app_dimensions.dart';
 
 class ShimmerLoading extends StatelessWidget {
   const ShimmerLoading({super.key});
@@ -9,70 +9,78 @@ class ShimmerLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 10,
-      padding: const EdgeInsets.only(top: AppConstants.smallPadding),
+      padding: EdgeInsets.only(top: AppDimensions.smallPadding),
       itemBuilder: (context, index) {
         return Card(
-          margin: const EdgeInsets.symmetric(
-            horizontal: AppConstants.defaultPadding,
-            vertical: AppConstants.smallPadding,
+          margin: EdgeInsets.symmetric(
+            horizontal: AppDimensions.listItemMarginHorizontal,
+            vertical: AppDimensions.listItemMarginVertical,
           ),
           child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
             child: Padding(
-              padding: const EdgeInsets.all(AppConstants.defaultPadding),
+              padding: EdgeInsets.all(AppDimensions.defaultPadding),
               child: Row(
                 children: [
                   Container(
-                    width: 60,
-                    height: 40,
+                    width: AppDimensions.brokerImageWidth,
+                    height: AppDimensions.brokerImageHeight,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(
-                        AppConstants.smallRadius,
+                        AppDimensions.smallRadius,
                       ),
                     ),
                   ),
-                  const SizedBox(width: AppConstants.defaultPadding),
+                  SizedBox(width: AppDimensions.defaultPadding),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 16,
+                          height: AppDimensions.shimmerItemHeight,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.smallRadius,
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: AppDimensions.smallPadding),
                         Container(
-                          height: 12,
-                          width: 120,
+                          height: AppDimensions.shimmerSmallItemHeight,
+                          width: AppDimensions.shimmerSmallItemWidth,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.smallRadius,
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: AppDimensions.smallPadding / 2),
                         Container(
-                          height: 12,
-                          width: 180,
+                          height: AppDimensions.shimmerSmallItemHeight,
+                          width: AppDimensions.shimmerMediumItemWidth,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.smallRadius,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    width: 50,
-                    height: 28,
+                    width: AppDimensions.shimmerButtonWidth,
+                    height: AppDimensions.buttonHeight,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.smallRadius,
+                      ),
                     ),
                   ),
                 ],

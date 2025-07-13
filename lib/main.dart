@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_brokers/core/constants/app_constants.dart';
-import 'package:top_brokers/core/constants/constant_strings.dart';
+import 'package:top_brokers/core/constants/size_config.dart';
+import 'package:top_brokers/core/navigation/app_router.dart';
 
-import 'core/constants/size_config.dart';
-import 'core/navigation/app_router.dart';
+import 'core/constants/constant_strings.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     SizeConfig().init(context);
 
     return MaterialApp.router(
-      title: ConstantStrings.appName,
+      title: AppStrings.appName,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: AppConstants.primaryColor,

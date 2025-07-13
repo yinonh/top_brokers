@@ -30,8 +30,8 @@ class ErrorDisplay extends StatelessWidget {
             const SizedBox(height: AppConstants.defaultPadding),
             Text(
               isOfflineError
-                  ? 'Connection Problem'
-                  : ConstantStrings.errorLoadingBrokers,
+                  ? AppStrings.connectionProblem
+                  : AppStrings.errorLoadingBrokers,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -65,7 +65,9 @@ class ErrorDisplay extends StatelessWidget {
                 ),
               ),
               child: Text(
-                isOfflineError ? 'Check Connection' : ConstantStrings.tryAgain,
+                isOfflineError
+                    ? AppStrings.checkConnection
+                    : AppStrings.tryAgain,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

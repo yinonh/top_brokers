@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:top_brokers/core/common/widgets/connectivity_wrapper.dart';
+import 'package:top_brokers/core/constants/app_dimensions.dart';
 import 'package:top_brokers/core/constants/constant_strings.dart';
 import 'package:top_brokers/core/services/connectivity_service.dart';
 import 'package:top_brokers/features/brokers/presentation/widgets/broker_list_item.dart';
@@ -37,7 +38,7 @@ class _BrokersListScreenState extends ConsumerState<BrokersListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(ConstantStrings.brokersListTitle),
+        title: const Text(AppStrings.brokersListTitle),
         centerTitle: true,
       ),
       body: ConnectivityWrapper(child: _buildBody(brokersState, isConnected)),
@@ -52,7 +53,7 @@ class _BrokersListScreenState extends ConsumerState<BrokersListScreen> {
     if (state.hasError) {
       return ErrorDisplay(
         message: state.isOfflineError
-            ? 'No internet connection available'
+            ? AppStrings.noInternetConnectionAvailable
             : state.errorMessage,
         onRetry: () {
           ref.read(brokersControllerProvider.notifier).retry();
@@ -62,7 +63,7 @@ class _BrokersListScreenState extends ConsumerState<BrokersListScreen> {
     }
 
     if (state.isEmpty) {
-      return const Center(child: Text(ConstantStrings.noDataAvailable));
+      return const Center(child: Text(AppStrings.noDataAvailable));
     }
 
     if (state.hasData) {
@@ -72,7 +73,7 @@ class _BrokersListScreenState extends ConsumerState<BrokersListScreen> {
         },
         child: ListView.builder(
           itemCount: state.brokers.length,
-          padding: const EdgeInsets.only(top: 8),
+          padding: EdgeInsets.only(top: AppDimensions.smallPadding),
           itemBuilder: (context, index) {
             return BrokerListItem(broker: state.brokers[index]);
           },
@@ -80,6 +81,6 @@ class _BrokersListScreenState extends ConsumerState<BrokersListScreen> {
       );
     }
 
-    return const Center(child: Text(ConstantStrings.loading));
+    return const Center(child: Text(AppStrings.loading));
   }
 }

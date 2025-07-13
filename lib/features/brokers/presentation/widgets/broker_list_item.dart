@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:top_brokers/core/constants/app_constants.dart';
 import 'package:top_brokers/core/constants/app_routes.dart';
 import 'package:top_brokers/core/constants/api_endpoints.dart';
+import 'package:top_brokers/core/constants/app_dimensions.dart';
 import 'package:top_brokers/core/constants/constant_strings.dart';
 import 'package:top_brokers/data/models/broker.dart';
 
@@ -14,70 +15,75 @@ class BrokerListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppConstants.defaultPadding,
-        vertical: AppConstants.smallPadding,
+      margin: EdgeInsets.symmetric(
+        horizontal: AppDimensions.listItemMarginHorizontal,
+        vertical: AppDimensions.listItemMarginVertical,
       ),
-      elevation: 2,
+      elevation: AppDimensions.cardElevation,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppConstants.defaultRadius),
+        borderRadius: BorderRadius.circular(AppDimensions.defaultRadius),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(AppConstants.defaultRadius),
+        borderRadius: BorderRadius.circular(AppDimensions.defaultRadius),
         onTap: () => context.push(AppRoutes.brokerDetails, extra: broker),
         child: Padding(
-          padding: const EdgeInsets.all(AppConstants.defaultPadding),
+          padding: EdgeInsets.all(AppDimensions.defaultPadding),
           child: Row(
             children: [
               Container(
-                width: 60,
-                height: 40,
+                width: AppDimensions.brokerImageWidth,
+                height: AppDimensions.brokerImageHeight,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppConstants.smallRadius),
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.smallRadius,
+                  ),
                   color: AppConstants.backgroundColor,
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(AppConstants.smallRadius),
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.smallRadius,
+                  ),
                   child: Image.network(
                     '${ApiEndpoints.brokersImageBaseUrl}${broker.brokerImage}',
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
-                      return const Icon(
+                      return Icon(
                         Icons.business,
                         color: AppConstants.textSecondaryColor,
+                        size: AppDimensions.defaultIconSize,
                       );
                     },
                   ),
                 ),
               ),
-              const SizedBox(width: AppConstants.defaultPadding),
+              SizedBox(width: AppDimensions.defaultPadding),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       broker.bn,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: AppDimensions.titleFontSize,
                         fontWeight: FontWeight.w600,
                         color: AppConstants.textPrimaryColor,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: AppDimensions.smallPadding / 2),
                     Text(
                       broker.bt,
-                      style: const TextStyle(
-                        fontSize: 12,
+                      style: TextStyle(
+                        fontSize: AppDimensions.bodyFontSize,
                         color: AppConstants.textSecondaryColor,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: AppDimensions.smallPadding / 4),
                     Text(
-                      'Regulation by ${broker.rt}',
-                      style: const TextStyle(
-                        fontSize: 11,
+                      '${AppStrings.regulationBy} ${broker.rt}',
+                      style: TextStyle(
+                        fontSize: AppDimensions.smallFontSize,
                         color: AppConstants.textSecondaryColor,
                       ),
                       maxLines: 1,
@@ -87,19 +93,21 @@ class BrokerListItem extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppDimensions.smallPadding * 1.5,
+                  vertical: AppDimensions.smallPadding * 0.75,
                 ),
                 decoration: BoxDecoration(
                   color: AppConstants.primaryColor,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.smallRadius,
+                  ),
                 ),
-                child: const Text(
-                  ConstantStrings.openButton,
+                child: Text(
+                  AppStrings.openButton,
                   style: TextStyle(
                     color: AppConstants.onPrimaryColor,
-                    fontSize: 12,
+                    fontSize: AppDimensions.bodyFontSize,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
