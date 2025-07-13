@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_brokers/core/common/widgets/connectivity_wrapper.dart';
 import 'package:top_brokers/core/constants/constant_strings.dart';
+import 'package:top_brokers/core/services/connectivity_service.dart';
 import 'package:top_brokers/features/brokers/presentation/widgets/broker_list_item.dart';
 import 'package:top_brokers/features/brokers/presentation/widgets/error_display.dart';
 import 'package:top_brokers/features/brokers/presentation/widgets/shimmer_loading.dart';
@@ -25,27 +27,37 @@ class _BrokersListScreenState extends ConsumerState<BrokersListScreen> {
   @override
   Widget build(BuildContext context) {
     final brokersState = ref.watch(brokersControllerProvider);
+    final isConnected = ref.watch(connectivityNotifierProvider);
+
+    ref.listen<bool>(connectivityNotifierProvider, (previous, next) {
+      if (previous == false && next == true && brokersState.isOfflineError) {
+        ref.read(brokersControllerProvider.notifier).loadBrokers();
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(ConstantStrings.brokersListTitle),
         centerTitle: true,
       ),
-      body: _buildBody(brokersState),
+      body: ConnectivityWrapper(child: _buildBody(brokersState, isConnected)),
     );
   }
 
-  Widget _buildBody(BrokersState state) {
+  Widget _buildBody(BrokersState state, bool isConnected) {
     if (state.isLoading) {
       return const ShimmerLoading();
     }
 
     if (state.hasError) {
       return ErrorDisplay(
-        message: state.errorMessage,
+        message: state.isOfflineError
+            ? 'No internet connection available'
+            : state.errorMessage,
         onRetry: () {
           ref.read(brokersControllerProvider.notifier).retry();
         },
+        isOfflineError: state.isOfflineError,
       );
     }
 
